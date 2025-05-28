@@ -1,30 +1,32 @@
 import java.util.ArrayList;
-
-public class AppEmpleado {
-    public static void main(String[] args){
-        Empleado e1 = new Empleado("Macarena", 23, 26000);
-        Empleado e2 = new Empleado("Alonso", 19, 18000);
-        Empleado e3 = new Empleado("Carlo", 33, 18000);
-
-        ArrayList<Empleado> listaEmpleado = new ArrayList<>();
-
-        GestionEmpleado gestionEmpleado = new GestionEmpleado(listaEmpleado);
-        gestionEmpleado.agregarEmpleado(e2);
-        gestionEmpleado.agregarEmpleado(e1);
-        gestionEmpleado.agregarEmpleado(e3);
-
-        System.out.println(listaEmpleado);
-        gestionEmpleado.aumentarSalarioEmpleadoMayoresde30(10);
-        System.out.println(listaEmpleado);
-
+/**
+ * Main application class for managing travel services.
+ */
+public class AppInventario {
+    public static void main(String[] args) {
+        // Create travel services
+        ServicioViaje cruceroEuropa = new ServicioViaje("Crucero Europa", 10, 2000);
+        ServicioViaje viajeEgipto = new ServicioViaje("Viaje Egipto", 15, 2500);
+        ServicioViaje vuelosAsia = new ServicioViaje("Vuelos Asia", 6, 1000);
+        // Print service details
+        System.out.println("Service Details:");
+        cruceroEuropa.imprimirServicioViaje();
+        viajeEgipto.imprimirServicioViaje();
+        vuelosAsia.imprimirServicioViaje();
+        // Create catalog and add services
+        ArrayList<ServicioViaje> listaServicios = new ArrayList<>();
+        CatalogoServicios catalogoServicios = new CatalogoServicios(listaServicios);
+        catalogoServicios.agregarServicio(cruceroEuropa);
+        catalogoServicios.agregarServicio(viajeEgipto);
+        catalogoServicios.agregarServicio(vuelosAsia);
+        // List catalog
+        System.out.println("\nCatalog:");
+        catalogoServicios.listarCatalogo();
+        // Update availability
+        catalogoServicios.actualizarDisponibilidad(viajeEgipto.getNombre(), 0);
+        // Remove services
+        catalogoServicios.eliminarServicio("Viaje Egipto");
+        // Handle exceptions
         try {
-            gestionEmpleado.buscarEmpleadoPorNombre("Macarena");
-            gestionEmpleado.buscarEmpleadoPorNombre("Denis");
-        } catch (EmpleadoNoEncontradoException e){
-            System.err.println("Error: " + e.getMessage());
-        }
-
-
-
-    }
-}
+            catalogoServicios.actualizarDisponibilidad("Viaje Egipo", 0);
+        } catch (ServicioSinDisponibilidadException e) {
